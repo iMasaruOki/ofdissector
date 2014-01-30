@@ -492,7 +492,7 @@ void DissectorContext::dissect_ofp_multipart_request() {
             }
             break;
         default:
-            ADD_CHILD(tree, "ofp_multipart_reply.body", this->_oflen - this->_offset);
+            ADD_CHILD(tree, "ofp_multipart_request.body", this->_oflen - this->_offset);
             break;
     }
 }
@@ -519,6 +519,11 @@ void DissectorContext::dissect_ofp_multipart_reply() {
         case OFPMP_TABLE_FEATURES:
             while ((this->_oflen - this->_offset) > 0) {
                 this->dissect_ofp_table_features(tree);
+            }
+            break;
+	case OFPMP_PORT_DESC:
+            while ((this->_oflen - this->_offset) > 0) {
+                this->dissect_ofp_port(tree);
             }
             break;
         default:
